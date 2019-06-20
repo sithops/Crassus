@@ -42,18 +42,32 @@ The connection between the Plugin and the Server are always started with a hands
 All implementations of crassus should be able to handle at minimal this set of versions, even though it is expected extensions of them will come at a later time we believe having these present will ensure the highest compatability.
 
 ### Version 0
-- uint version (native)
+- name:version type:uint (native)
   - The version of the Protocol in array[1]
-- UUID uuid (string or native)
+- name:uuid type:uuid (string or native)
   - A global unique identifier 
 
 ### Version 1
-- uint[] crassus 
+- name:crassus type:uint[] 
   - An array of uint's 
-- 
+
+## Version 2-99 (future planning, PROPOSED)
+The above two versions of the protocol are required for the initial handshake and are therefor absolutely stable, as we have an entire uint of version numbers the other 'core' crassus versions will start at 100. This is really a vanity request as obviously numbers in and of them self have no meaning here, but perhaps at some stage there may be a more intricate handshake required which obviously, would be in this reserved block.
+
+## Version 100
+- name:crassus type:string[] 
+  - An array of strings 
+- name:routing type:dictionary<string,string>
+  - a hash/keyval/dictionary of values used primarily to identify the destination of a data packet, this also allows targetting crassus or other plugins directly for things like reports
+- name:option type:dictionary<string,string>
+  - Presently the only key used in here is 'report':"int/type" which would request a specific reporting of the delivery of a packet to clients.
 
 ## Handshake
 
 The initial handshake is always sent first by the Plugin, it will always be of the design: [Protocol0,Protocol1], where Protocol1 will include a list of all protocols it supports.
 
 The response by crassus will be of the format: [Protocol0,Protocol1] and will have a list with only one single element, stating which Protocol version should be used.
+
+## Data stream
+
+Send [Protocol0,ProtocolN] (as negotiated in the handshake) out to people in a channel.
