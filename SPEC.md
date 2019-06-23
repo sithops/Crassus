@@ -9,6 +9,7 @@ This RFC describes Crassus message structure and interaction protocol version
 
 ## Terminology
 
+```
 Channel		A virtual identifier for a collection of subscribers.
 
 Client 		An end user that may be conneted to a Plugin via any kind 
@@ -26,7 +27,7 @@ Protocol 	Definition or spec of JSON data format to which message
 
 Subscriber	A plugin that has associated with a channel for the purpose of
  		data exchange, this may be on behalf of a Client.
-
+```
 
 ## Protocol Format
 
