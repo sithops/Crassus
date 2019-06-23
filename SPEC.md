@@ -107,8 +107,9 @@ elements. `m[0]` will be the header and `m[1]` will be the body.
 
 #### V0 Routing Hash
 
-| Key         | Type   | Required | Description                                | 
-| source      | string | yes      | UUID of sending plugin/client.             | 
+| Key         | Type   | Required | Description                                   | 
+|-------------|--------|----------|-----------------------------------------------|
+| source      | string | yes      | UUID of sending plugin/client.                | 
 | destination | string | yes      | Message destination. May be UUID or plugin ID | 
 
 #### V0 Option Hash
