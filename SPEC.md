@@ -4,40 +4,46 @@ Beware you are entering a darkened room, you might be eaten by a Grue.
 
 ## Overview
 
-This RFC describes Crassus message structure and interaction protocol.
+This RFC describes Crassus message structure and interaction protocol version
+0.
 
 ## Terminology
 
 Channel		A virtual identifier for a collection of subscribers.
 
-Client 		An end user-user that may be conneted to a Plugin via any kind 
+Client 		An end user that may be conneted to a Plugin via any kind 
 		of communication medium.
 
 Message		This is used to describe a JSON data structure that is sent to 
  		and from Crassus. Messages must adhere to exactly one version
-		of the Crassus protocol and may not attempt to mix versions.
+		of the Crassus protocol and may not mix versions.
 
 Plugin		An extension to Crassus that offers a new interface to the 
 		core. Plugins may also offer extension functionality.
 
-
-Protocol 	A definition of a kind of json data structure to strictly 
-		adhere to.
+Protocol 	Definition or spec of JSON data format to which message
+		exchanges must adhere.
 
 Subscriber	A plugin that has associated with a channel for the purpose of
  		data exchange, this may be on behalf of a Client.
 
 
-# Protocol
+## Protocol Format
 
-Crassus implements a split header/body structure in the form of a 2 element
-JSON array[2], these messages are transmitted and received via a WebSocket 
-connection. Both datastructures present in the array[2] are of a standard type 
-of protocol.
+The following describes the format of Crassus messages, connection, and
+operation.
+
+### Message Body
+
+Crassus implements a split header/body structure in the form of a 2-element
+JSON array. These messages are transmitted and received via a WebSocket 
+connection. Both structures present in the array are defined by the
+protocol itself.
 
 The connection between the Plugin and the Server are always started with a
-handshake routine, after this packets may be both sent and recieved as
-designated to the channels the plugins are subscribed in.
+handshake routine which negotiates the version the Plugin and Ser will use. 
+After this packets may be both sent and recieved per the spec of the given
+protocol agreed to in the handshake.
 
 ## Handshakes and Initialization
 
@@ -57,7 +63,7 @@ and sends a JSON-encoded message in the following format:
 [0,1,2]
 ```
 
-Where the elements are `uint`s advertising the versions the client wishes to
+Where each element is a `uint` advertising the versions the client wishes to
 use. The server will respond with a uint array containing either 0 or 1
 elements. An empty array indicates the server has no compatible versions and
 the connection will terminate. An array with one element indicates the
@@ -77,28 +83,38 @@ This indicates a negotiated version of protocol v1.
 This indicates the server has no compatible versions.
 
 ### Version 0
-Example Message:
-```
-[
- {
-   version: INT
-   UUID: uuid
- } 
-{
-   "Crassus": [
-      "COMMAND",
-      "TARGET",
-      "?DATA?"
-   ],
-   "Option": {
-      "report": "INT/Report type"
-   },
-   "Routing": {
-      "code": "INT/2323",
-      "code_extra": "STRING/Not sure about this one, but if we need to give more info?",
-      "destination": "UUID",
-      "source": "UUID"
-    }
-  }
-]
-```
+
+For this document, a crassus message will be referred to as `m`. 
+
+When possible, all Crassus message versions will be a JSON array of two 
+elements. `m[0]` will be the header and `m[1]` will be the body.
+
+#### V0 Header
+
+| Key     | Type   | Required | Description                   | 
+|---------|--------|----------|-------------------------------|
+| version | int    | yes      | Negotiated protocol version   |
+| uuid    | string | yes      | Sender-generated message UUID |
+
+
+#### V0 Body
+
+| Key     | Type   | Required | Description                                   | 
+|---------|--------|----------|-----------------------------------------------|
+| crassus | string | yes      | base64 representation of actual message       |
+| routing | hash   | yes      | Hash representation of source and destination | 
+| option  | hash   | no       | Control messages for plugins                  |
+
+#### V0 Routing Hash
+
+| Key         | Type   | Required | Description                                   | 
+|-------------|--------|----------|-----------------------------------------------|
+| source      | string | yes      | UUID of sending plugin/client.                | 
+| destination | string | yes      | Message destination. May be UUID or plugin ID | 
+
+#### V0 Option Hash
+
+Free-form hash that plugins use to pass control messages outside of raw data.
+May be used to indicate if a reply should be unicast, a report should be
+generated, or anything else. Plugins are responsible for documenting their own
+usage of the `options` hash.
