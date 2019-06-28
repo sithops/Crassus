@@ -91,6 +91,8 @@ If all went well Crassus will send a packet in the negotiated protocol version, 
 * uuid		= The UUID assigned to the plugin by Crassus
 * crassus	= The UUID of crassus
 
+This header will be set with report: 1
+
 ### Version 0
 
 For this document, a crassus message will be referred to as `m`. 
@@ -139,7 +141,9 @@ usage of the `options` hash.
 
 | Key         |  Description                                                       | 
 |-------------|--------------------------------------------------------------------|
-| 0           | Send back a report that includes details of who the message was    |
+| 1           | Sent to a plugin on first connect, defining the uuid's created for |
+|             | the plugin its self and the one crassus is using                   |
+| 2           | Send back a report that includes details of who the message was    |
 |             | sent to 														   |
 
 ## Guid/UUID and Object identificaition
