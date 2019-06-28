@@ -120,10 +120,10 @@ May be used to indicate if a reply should be unicast, a report should be
 generated, or anything else. Plugins are responsible for documenting their own
 usage of the `options` hash.
 
-| Key         | Type    | Required | Description                                   | 
-|-------------|---------|----------|-----------------------------------------------|
-| report      | boolean | no       | Wether crassus should send a standard report  | 
-| report_type | integer | no       | Which standard report to send, default: 0     | 
+| Key         | Type     | Required | Description                                   | 
+|-------------|----------|----------|-----------------------------------------------|
+|             | unsigned |          | If set, which report to send defaults to 0 if |
+| report      | integer  | no       | set erronously or present but not set.
 
 ##### Report Types
 
