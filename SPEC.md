@@ -86,12 +86,22 @@ This indicates the server has no compatible versions.
 
 **This section is not complete!**
 
-If all went well Crassus will send a packet in the negotiated protocol version, containing a json with the following information: { uuid=>uuid, crassus=>uuid }
+If all went well Crassus will send a packet in the negotiated protocol version, containing a json with the following information: [crassus_uuid,plugin_uuid]
 
-* uuid		= The UUID assigned to the plugin by Crassus
-* crassus	= The UUID of crassus
+* crassus_uuid	= The UUID of crassus
+* plugin_uuid	= The UUID assigned to the plugin by Crassus
 
 This header will be set with report: 1
+
+### Crassus/Plugin commands interface
+
+When the destination of a packet is to crassus its self, data will be a json encoded array with the following being examples of common functions:
+* [SUBSCRIPTION,ADD,CHANNEL]
+  * SUBSCRIPTION = The command base (Subscriptions)
+  * ADD = The secondary command function (Add to my subscriptions)
+  * CHANNEL = The channel to subscribe to
+* [SUBSCRIPTION,REMOVE,CHANNEL]
+  * Same as add but you know, remove.
 
 ### Version 0
 
