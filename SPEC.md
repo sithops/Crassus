@@ -102,7 +102,6 @@ elements. `m[0]` will be the header and `m[1]` will be the body.
 | Key     | Type   | Required | Description                                   | 
 |---------|--------|----------|-----------------------------------------------|
 | body    | string | yes      | base64 representation of actual message       |
-| body    | byte[] | yes      | jsonb encoded byte[] array                    | |
 |---------|--------|----------|-----------------------------------------------|
 | routing | hash   | yes      | Hash representation of source and destination | 
 | option  | hash   | no       | Control messages for plugins                  |
