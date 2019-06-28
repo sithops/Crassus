@@ -101,9 +101,10 @@ elements. `m[0]` will be the header and `m[1]` will be the body.
 
 | Key     | Type   | Required | Description                                   | 
 |---------|--------|----------|-----------------------------------------------|
-| crassus | string | yes      | base64 representation of actual message       |
+| body    | string | yes      | base64 representation of actual message       |
 | routing | hash   | yes      | Hash representation of source and destination | 
 | option  | hash   | no       | Control messages for plugins                  |
+| tag     | string | no       | Optional free form text field                 |
 
 #### V0 Routing Hash
 
@@ -118,3 +119,15 @@ Free-form hash that plugins use to pass control messages outside of raw data.
 May be used to indicate if a reply should be unicast, a report should be
 generated, or anything else. Plugins are responsible for documenting their own
 usage of the `options` hash.
+
+| Key         | Type    | Required | Description                                   | 
+|-------------|---------|----------|-----------------------------------------------|
+| report      | boolean | no       | Wether crassus should send a standard report  | 
+| report_type | integer | no       | Which standard report to send, default: 0     | 
+
+##### Report Types
+
+| Key         |  Description                                                       | 
+|-------------|--------------------------------------------------------------------|
+| 0           | Send back a report that includes details of who the message was    |
+|             | sent to 														   |
