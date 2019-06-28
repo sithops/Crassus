@@ -102,6 +102,8 @@ When the destination of a packet is to crassus its self, data will be a json enc
   * CHANNEL = The channel to subscribe to
 * [SUBSCRIPTION,REMOVE,CHANNEL]
   * Same as add but you know, remove.
+* [SUBSCRIPTION,LIST]
+  * Request a list of channels that are able to be subscribed to, returns an array of strings.
 
 ### Version 0
 
